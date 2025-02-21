@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScrollTrigger Variable Fonts + Marquee Animation | @Codegrid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100;300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <img src="./assets/hero.jpg" alt=""/>
+        </section>
+        <section class="about">
+            <p>
+                Step into a surreal and immersive experience with our Dreamy 3D world Dystopian series. This captivating realm invites you to explore a world where reality and fantasy intertwine, creating a unique blend of striking visuals and thought-provoking narratives. Every corner of this digital landscape is meticulously crafted, offering a sensory journey through breathtaking terrains, eerie cityscapes, and enigmatic structures. Each element is thoughtfully designed to transport you to a world of imagination and intrigue.
+            </p>
+        </section>
+        <section class="marquees">
+             <div class="marquee-container" id="marquee-1">
+                <div class="marquee">
+                    <div class="item"><img src="./assets/img1.webp" alt=""/></div>
+                    <div class="item with-text"><h1>Unique</h1></div>
+                    <div class="item"><img src="./assets/img2.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img3.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img4.webp" alt=""/></div>
+                </div>
+             </div>
+             <div class="marquee-container" id="marquee-2">
+                <div class="marquee">
+                    <div class="item"><img src="./assets/img5.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img6.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img7.webp" alt=""/></div>
+                    <div class="item with-text"><h1>People</h1></div>
+                    <div class="item"><img src="./assets/img8.webp" alt=""/></div>
+                </div>
+             </div>
+             <div class="marquee-container" id="marquee-3">
+                <div class="marquee">
+                    <div class="item"><img src="./assets/img9.webp" alt=""/></div>
+                    <div class="item with-text"><h1>Bring</h1></div>
+                    <div class="item"><img src="./assets/img10.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img11.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img12.webp" alt=""/></div>
+                </div>
+             </div>
+             <div class="marquee-container" id="marquee-4">
+                <div class="marquee">
+                    <div class="item"><img src="./assets/img13.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img14.webp" alt=""/></div>
+                    <div class="item"><img src="./assets/img15.webp" alt=""/></div>
+                    <div class="item with-text"><h1>Moments</h1></div>
+                    <div class="item"><img src="./assets/img16.webp" alt=""/></div>
+                </div>
+             </div>
+        </section>
+        <section class="services">
+            <p>
+                In this meticulously designed dystopian world, you'll find yourself immersed in stories of resilience and intrigue. Navigate through desolate landscapes, uncover hidden secrets, and engage with complex characters that reflect the human spirit in the face of adversity. Each scene is a work of art, combining futuristic elements with a nostalgic nod to classic dystopian themes.
+            </p>
+        </section>
+        <section class="footer">
+            <h1>The End</h1>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="./js/split-type.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@latest/dist/lenis.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const lenis = new Lenis({
+                duration: 1.2,
+                smooth: true,
+                smoothTouch: false
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // Split text animation
+            const headings = document.querySelectorAll('.item h1');
+            headings.forEach(heading => {
+                new SplitType(heading, {
+                    types: ['chars'],
+                    tagName: 'span'
+                });
+            });
+
+            // Marquee animations
+            const marqueeContainers = document.querySelectorAll(".marquee-container");
+            
+            marqueeContainers.forEach((container, index) => {
+                const marquee = container.querySelector(".marquee");
+                const direction = index % 2 === 0 ? -1 : 1;
+                
+                gsap.fromTo(marquee, 
+                    { x: 0 }, 
+                    {
+                        x: direction * window.innerWidth * 0.15,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: container,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 1,
+                            invalidateOnRefresh: true
+                        }
+                    }
+                );
+
+                const chars = container.querySelectorAll(".char");
+                if (chars.length) {
+                    gsap.fromTo(chars, 
+                        { fontWeight: 100 }, 
+                        {
+                            fontWeight: 900,
+                            ease: "none",
+                            stagger: {
+                                each: 0.05,
+                                from: direction > 0 ? "start" : "end"
+                            },
+                            scrollTrigger: {
+                                trigger: container,
+                                start: "top center",
+                                end: "bottom center",
+                                scrub: 1
+                            }
+                        }
+                    );
+                }
+            });
+
+            // Connect Lenis to ScrollTrigger
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => lenis.raf(time * 1000));
+            gsap.ticker.lagSmoothing(0);
+        });
+    </script>
+</body>
+</html>

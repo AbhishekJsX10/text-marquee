@@ -1,0 +1,173 @@
+
+@font-face {
+    font-family: "Big Shoulders Display";
+    src: url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&display=swap");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Big Shoulders Display", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #13120e;
+}
+
+.container {
+    width: 100%;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.hero{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+p {
+    font-size: 42px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+section {
+    width: 100%;
+    /* min-height: 100vh; */
+}
+
+section.about, section.services {
+    padding: 4em;
+    background: #87795f;
+}
+
+
+section.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #13120e;
+    color: #87795f;
+}
+
+section.footer h1 {
+    font-size: 10vw;
+    text-transform: uppercase;
+}
+
+
+section.about {
+    height: 70vh;
+    /* background: #4225c5; */
+}
+
+
+section.marquees {
+    min-height: 150vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4rem;
+    background-color: #fff;
+    padding: 2rem 0;
+    overflow: hidden;
+}
+
+.marquee-container {
+    position: relative;
+    width: 140%;
+    left: -20%;
+    height: 250px;
+    margin-bottom: 2rem;
+}
+
+.marquee {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.item {
+    flex: 1;
+    height: 200px;
+    position: relative;
+}
+
+.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item.with-text {
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item h1 {
+    text-transform: uppercase;
+    font-size: 140px;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    section.marquees {
+        min-height: 100vh;
+    }
+
+    .marquee-container {
+        width: 250%;
+        height: 150px;
+    }
+
+    .item {
+        height: 120px;
+    }
+
+    .item.with-text {
+        flex: 1;
+    }
+
+    .item h1 {
+        font-size: 60px;
+    }
+}
+
+/* Lenis Smooth Scroll */
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
